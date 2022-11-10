@@ -1,4 +1,4 @@
-const regular = /https?:\/\/(w{3}\.)?([\w-]{1,}\.)+[\w._~:/?#[\]@!$&'()*+,;=]*#?/i;
+const regular = /^(https?:\/\/)(www\.)?([a-z1-9-]{1,}\.)+[a-z]{2,}\/?[a-z0-9-._~:/?#[\]@!$&'()*+,;=]*/i;
 
 const allowedCors = [
   'https://emoiseev.mesto.nomoredomains.sbs',

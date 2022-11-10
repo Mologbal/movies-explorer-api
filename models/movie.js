@@ -1,3 +1,4 @@
+const validator = require('validator');
 const mongoose = require('mongoose');
 
 const movieSchema = new mongoose.Schema({
@@ -25,30 +26,24 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator(v) {
-        return /https?:\/\/(w{3}\.)?([\w-]{1,}\.)+[\w._~:/?#[\]@!$&'()*+,;=]*#?/i.test(v);
-      },
-      message: 'Ссылка на вашу картинку некорректна',
+      validator: (v) => validator.isURL(v),
+      message: 'Неправильный формат ссылки',
     },
   },
   trailerLink: {
     type: String,
     required: true,
     validate: {
-      validator(v) {
-        return /https?:\/\/(w{3}\.)?([\w-]{1,}\.)+[\w._~:/?#[\]@!$&'()*+,;=]*#?/i.test(v);
-      },
-      message: 'Ссылка на вашу картинку некорректна',
+      validator: (v) => validator.isURL(v),
+      message: 'Неправильный формат ссылки',
     },
   },
   thumbnail: {
     type: String,
     required: true,
     validate: {
-      validator(v) {
-        return /https?:\/\/(w{3}\.)?([\w-]{1,}\.)+[\w._~:/?#[\]@!$&'()*+,;=]*#?/i.test(v);
-      },
-      message: 'Ссылка на вашу картинку некорректна',
+      validator: (v) => validator.isURL(v),
+      message: 'Неправильный формат ссылки',
     },
   },
   owner: {
@@ -68,7 +63,6 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-
 });
 
 module.exports = mongoose.model('movie', movieSchema);

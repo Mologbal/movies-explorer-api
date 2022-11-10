@@ -4,19 +4,15 @@ const NotFound = require('../errors/notFoundError');
 const ConflictError = require('../errors/conflictError');
 const BadRequestError = require('../errors/badRequestError');
 const { getJwtToken } = require('../utils/jwt');
-const { errorLogger } = require('../middlewares/logger');
 
 // выдаст информацию о текущем пользователе
-const getCurrentUser = (req, res, next) => {
-  const { _id } = req.user;
-  User.findById(_id).then((user) => {
-    if (!user) {
-      return next(new NotFound('Такого пользователя не существует'));
-    }
-    return res.status(200).send(user);
-  }).catch((err) => {
-    next(err);
-  });
+const getUserInfo = (req, res, next) => {
+  const userId = req.body._id;
+
+  User.findById(userId)
+    .orFail(new NotFound('Пользователь не найден'))
+    .then((user) => res.send(user))
+    .catch((err) => next(err));
 };
 
 // создаст нового пользователя
@@ -65,7 +61,7 @@ const login = (req, res, next) => {
 };
 
 // обновит информацию о пользователе
-const updateUser = (req, res, next) => {
+const updateUserInfo = (req, res, next) => {
   const { name, email } = req.body;
   User.findByIdAndUpdate(
     req.user._id,
@@ -86,5 +82,5 @@ const updateUser = (req, res, next) => {
 };
 
 module.exports = {
-  createUser, updateUser, getCurrentUser, login,
+  createUser, updateUserInfo, getUserInfo, login,
 };

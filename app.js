@@ -14,7 +14,7 @@ const { auth } = require('./middlewares/auth');
 const { PORT = 3002 } = process.env;
 const app = express();
 
-mongoose.connect('mongodb://127.0.0.1:27017/bitfilmsdb', {
+mongoose.connect('mongodb://127.0.0.1:27017/moviesdb', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -42,15 +42,13 @@ app.use(cors({
 
 app.use('/', loginAndRegister);
 
-app.use(auth);
-
 // Логи ошибок, запись ошибок в файл
 const { requestLogger, errorLoger } = require('./middlewares/logger');
 
 // Логгер запросов до маршрутов
 app.use(requestLogger);
 
-app.use('/', userRouter);
+app.use(userRouter);
 app.use('/', movieRouter);
 app.use('*', (req, res, next) => {
   next(new NotFound('Страница не найдена'));
